@@ -1,0 +1,25 @@
+import React from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Highlights from "./components/Highlights";
+import Features from "./components/Features";
+import HowItWorks from "./components/HowItWorks";
+import Footer from "./components/Footer";
+import Model from "./components/Model";
+
+const App = () => {
+  return (
+    <main className="bg-black">
+      <Navbar />
+      <Hero />
+      <Highlights />
+      <Model />     {/* ✅ Model 自己内部包含 Canvas */}
+      <Features />
+      <HowItWorks />
+      <Footer />
+    </main>
+  );
+};
+
+export default App;
+

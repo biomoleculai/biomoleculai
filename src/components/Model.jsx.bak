@@ -1,0 +1,132 @@
+import { useEffect, useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { View } from "@react-three/drei";
+import gsap from "gsap";
+import * as THREE from "three";
+import { useGSAP } from "@gsap/react";
+
+import { models, sizes } from "../constants";
+console.log("✅ Model.jsx loaded!");
+import ModelView from "./ModelView";
+console.log("✅ ModelView import result:", ModelView);
+
+
+import { animateWithGsapTimeline } from "../utils/animations";
+
+
+const Model = () => {
+  const [size, setSize] = useState("small");
+  const [model, setModel] = useState({
+    title: models[0].title,
+    color: models[0].color,
+    img: models[0].img,
+  });
+
+  const cameraControlSmall = useRef();
+  const cameraControlLarge = useRef();
+
+  const small = useRef(new THREE.Group());
+  const large = useRef(new THREE.Group());
+
+  const [smallRotation, setSmallRotation] = useState(0);
+  const [largeRotation, setLargeRotation] = useState(0);
+
+  const tl = gsap.timeline();
+
+  useEffect(() => {
+    if (size === "large") {
+      animateWithGsapTimeline(tl, small, smallRotation, "#view1", "#view2", {
+        transform: "translateX(-100%)",
+        duration: 2,
+      });
+    }
+    if (size === "small") {
+      animateWithGsapTimeline(tl, large, largeRotation, "#view2", "#view1", {
+        transform: "translateX(0)",
+        duration: 2,
+      });
+    }
+  }, [size]);
+
+  useGSAP(() => {
+    gsap.to("#heading", { y: 0, opacity: 1 });
+  }, []);
+
+  return (
+    <section className="common-padding">
+      {/* ✅ 文本和控制按钮在 Canvas 外 */}
+      <div className="screen-max-width">
+        <h1 id="heading" className="section-heading">Take a closer look.</h1>
+
+        {/* 按钮控制区 */}
+        <div className="flex-center flex-col mt-5">
+          <ul className="flex gap-2 mb-4">
+            {models.map((item, i) => (
+              <li
+                key={i}
+                onClick={() => setModel(item)}
+                className="w-6 h-6 rounded-full cursor-pointer"
+                style={{ backgroundColor: item.color[0] }}
+              />
+            ))}
+          </ul>
+
+          <div className="flex gap-4">
+            {sizes.map(({ label, value }) => (
+              <button
+                key={label}
+                onClick={() => setSize(value)}
+                style={{
+                  backgroundColor: size === value ? "white" : "transparent",
+                  color: size === value ? "black" : "white",
+                  border: "1px solid white",
+                  padding: "4px 12px",
+                  borderRadius: "6px",
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ✅ 3D 场景区域 */}
+        <div className="relative w-full h-[75vh] md:h-[90vh] mt-8 overflow-hidden">
+          <Canvas
+            className="w-full h-full"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+            eventSource={document.getElementById("root")}
+          >
+            <ModelView
+              index={1}
+              groupRef={small}
+              gsapType="view1"
+              controlRef={cameraControlSmall}
+              setRotationState={setSmallRotation}
+              item={model}
+              size={size}
+            />
+            <ModelView
+              index={2}
+              groupRef={large}
+              gsapType="view2"
+              controlRef={cameraControlLarge}
+              setRotationState={setLargeRotation}
+              item={model}
+              size={size}
+            />
+          </Canvas>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Model;
+

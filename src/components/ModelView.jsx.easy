@@ -1,0 +1,14 @@
+import { PerspectiveCamera, View } from "@react-three/drei";
+import React from "react";
+
+const ModelView = () => {
+  return (
+    <View>
+      <PerspectiveCamera makeDefault position={[0, 0, 4]} />
+      <ambientLight intensity={0.3} />
+    </View>
+  );
+};
+
+export default ModelView;
+
