@@ -2,10 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-import { heroVideo } from "../assets";
+import { heroVideo, smallHeroVideo } from "../assets";
 
 const Hero = () => {
-  const [videoSrc] = useState(heroVideo);
+  const [videoSrc, setVideoSrc] = useState(heroVideo);
+
+  const handleVideoSrcSet = () => {
+    setVideoSrc(heroVideo);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleVideoSrcSet);
+
+    return () => window.removeEventListener("resize", handleVideoSrcSet);
+  }, []);
 
   useGSAP(() => {
     gsap.to("#hero", {
@@ -22,23 +32,35 @@ const Hero = () => {
 
   return (
     <section className="nav-height relative w-full bg-black">
-      <div className="flex-center h-5/6 w-full flex-col px-4">
+      <div className="flex-center h-5/6 w-full flex-col">
         <p
           id="hero"
           className="hero-title text-center leading-tight text-[40px] md:text-[80px]"
         >
-          Biomoleculaiiiii
+          Biomoleculai
         </p>
 
-        <div className="w-full max-w-[700px] mx-auto mt-4">
+        {/* 保持原来的大尺寸布局：桌面和手机都是 9/12 / 10/12 宽度 */}
+        <div className="w-9/12 md:w-10/12">
           <video
             autoPlay
             muted
-            loop
             playsInline
-            className="w-full h-auto rounded-xl object-cover"
-            src={videoSrc}
-          ></video>
+            loop
+            key={videoSrc}
+            className="w-full h-auto pointer-events-none"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        </div>
+
+        <div
+          id="cta"
+          className="flex translate-y-20 flex-col items-center opacity-0"
+        >
+          <a href="#highlights" className="btn">
+            Buy
+          </a>
         </div>
       </div>
     </section>
@@ -46,4 +68,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
