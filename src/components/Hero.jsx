@@ -27,7 +27,7 @@ const Hero = () => {
           id="hero"
           className="hero-title text-center leading-tight text-[40px] md:text-[80px]"
         >
-          Biomoleculai
+          Biomoleculaiiiii
         </p>
 
         <div className="w-full max-w-[700px] mx-auto mt-4">
