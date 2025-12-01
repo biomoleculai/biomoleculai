@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/biomoleculai-v2/',
+  base: '/biomoleculai/',
   build: {
     outDir: 'docs'          // 👈 打包到 docs 目录
   },
