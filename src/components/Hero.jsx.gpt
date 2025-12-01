@@ -1,0 +1,52 @@
+import React, { useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+import { heroVideo } from "../assets";
+
+const Hero = () => {
+  const [videoSrc] = useState(heroVideo);
+
+  useGSAP(() => {
+    gsap.to("#hero-title", { opacity: 1, delay: 1.2 });
+    gsap.to("#hero-cta", { opacity: 1, y: -20, delay: 1.4 });
+  }, []);
+
+  return (
+    <section className="nav-height relative w-full bg-black">
+      <div className="flex-center h-5/6 w-full flex-col px-4">
+        {/* 顶部大标题（你可以要/不要） */}
+        {/* 如果不想要这行文字，直接把这个 <p> 整块删掉即可 */}
+        <p
+          id="hero-title"
+          className="hero-title text-center leading-tight text-[40px] md:text-[80px]"
+        >
+          Biomoleculai
+        </p>
+
+        {/* 中间的视频/图片区域 */}
+        <div className="w-full max-w-[700px] mx-auto mt-4">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-auto rounded-xl object-cover"
+            src={videoSrc}
+          />
+        </div>
+
+        {/* 底部 Buy 按钮 */}
+        <button
+          id="hero-cta"
+          className="mt-8 rounded-full bg-[#0071e3] px-10 py-3 text-lg font-semibold text-white"
+        >
+          Buy
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
+
