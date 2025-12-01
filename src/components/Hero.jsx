@@ -33,12 +33,6 @@ const Hero = () => {
   return (
     <section className="nav-height relative w-full bg-black">
       <div className="flex-center h-5/6 w-full flex-col">
-        <p
-          id="hero"
-          className="hero-title text-center leading-tight text-[40px] md:text-[80px]"
-        >
-          Biomoleculai
-        </p>
 
         {/* 保持原来的大尺寸布局：桌面和手机都是 9/12 / 10/12 宽度 */}
         <div className="w-9/12 md:w-10/12">
